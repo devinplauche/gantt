@@ -1919,7 +1919,6 @@ class Gantt {
         if (this.options['on_' + event]) {
             this.options['on_' + event].apply(null, args);
         }
-        this.render();
     }
 
     /**
