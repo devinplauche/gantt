@@ -1002,7 +1002,7 @@ class Popup {
         "<option value=\"K\">K</option>\n" +
         "<option value=\"R\">R</option>\n" + 
         "<option value=\"X\">X</option>\n" +   
-        "</select>";
+        "</select><style>#actionCode { background: #ccc }</style>";
         
             html += '<div class="pointer"></div>';
             this.parent.innerHTML = html;
