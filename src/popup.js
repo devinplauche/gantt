@@ -40,26 +40,27 @@ export default class Popup {
         "<option value=\"G\">R</option>\n" + 
         "<option value=\"K\">X</option>\n" +   
         "</select>";
-        let dropdown = document.getElementById("actionCode");
-        for ( var i = 0; i < dropdown.options.length; i++ ) {
-
-            if ( dropdown.options[i].text == options.task.action_code ) {
-    
-                dropdown.options[i].selected = true;
-    
-    
-            }
-    
-        }
-        
-
-        document.addEventListener('input', function () {
-            options.task.action_code = dropdown.value;
-            
-            console.log(options.task.action_code);
-        });
-            html += '<div class="pointer"></div>';
+        html += '<div class="pointer"></div>';
             this.parent.innerHTML = html;
+            this.pointer = this.parent.querySelector('.pointer');
+            let dropdown = document.getElementById("actionCode");
+            for ( var i = 0; i < dropdown.options.length; i++ ) {
+
+                if ( dropdown.options[i].text == options.task.action_code ) {
+        
+                    dropdown.options[i].selected = true;
+        
+                }
+        
+            }
+            
+ 
+            document.addEventListener('input', function () {
+                options.task.action_code = dropdown.value;
+                
+                console.log(options.task.action_code);
+            
+            });
         
 
         // set position
