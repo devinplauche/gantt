@@ -653,6 +653,7 @@ class Bar {
             }
 
             this.gantt.trigger_event('click', [this.task]);
+            this.gantt.render();
         });
     }
 
@@ -989,18 +990,43 @@ class Popup {
             options.position = 'left';
         }
         const target_element = options.target_element;
-
-        if (this.custom_html) {
-            let html = this.custom_html(options.task);
+        
+        let html = "<select name=\"actionCode\" id=\"actionCode\">" + 
+        "<option value=\"A\">A</option>\n" + 
+        "<option value=\"B\">B</option>\n" + 
+        "<option value=\"C\">C</option>\n" + 
+        "<option value=\"D\">D</option>\n" +
+        "<option value=\"E\">E</option>\n" + 
+        "<option value=\"F\">F</option>\n" + 
+        "<option value=\"G\">G</option>\n" + 
+        "<option value=\"K\">K</option>\n" +
+        "<option value=\"R\">R</option>\n" + 
+        "<option value=\"X\">X</option>\n" +   
+        "</select>";
+        
             html += '<div class="pointer"></div>';
             this.parent.innerHTML = html;
             this.pointer = this.parent.querySelector('.pointer');
-        } else {
-            // set data
-            this.title.innerHTML = options.title;
-            this.subtitle.innerHTML = options.subtitle;
-            this.parent.style.width = this.parent.clientWidth + 'px';
-        }
+            let dropdown = document.getElementById("actionCode");
+            for ( var i = 0; i < dropdown.options.length; i++ ) {
+
+                if ( dropdown.options[i].text == options.task.action_code ) {
+        
+                    dropdown.options[i].selected = true;
+        
+                }
+        
+            }
+            
+ 
+            document.addEventListener('input', function () {
+                options.task.action_code = dropdown.value;
+                
+                console.log(options.task.action_code);
+            
+            });
+
+    
 
         // set position
         let position_meta;
@@ -1009,7 +1035,6 @@ class Popup {
         } else if (target_element instanceof SVGElement) {
             position_meta = options.target_element.getBBox();
         }
-
         if (options.position === 'left') {
             this.parent.style.left =
                 position_meta.x + (position_meta.width + 10) + 'px';

@@ -27,18 +27,43 @@ export default class Popup {
             options.position = 'left';
         }
         const target_element = options.target_element;
+        
+        let html = "<select name=\"actionCode\" id=\"actionCode\">" + 
+        "<option value=\"A\">A</option>\n" + 
+        "<option value=\"B\">B</option>\n" + 
+        "<option value=\"C\">C</option>\n" + 
+        "<option value=\"D\">D</option>\n" +
+        "<option value=\"E\">E</option>\n" + 
+        "<option value=\"F\">F</option>\n" + 
+        "<option value=\"G\">G</option>\n" + 
+        "<option value=\"K\">K</option>\n" +
+        "<option value=\"G\">R</option>\n" + 
+        "<option value=\"K\">X</option>\n" +   
+        "</select>";
+        let dropdown = document.getElementById("actionCode");
+        for ( var i = 0; i < dropdown.options.length; i++ ) {
 
-        if (this.custom_html) {
-            let html = this.custom_html(options.task);
+            if ( dropdown.options[i].text == options.task.action_code ) {
+    
+                dropdown.options[i].selected = true;
+    
+    
+            }
+    
+        }
+        
+
+        document.addEventListener('input', function () {
+            options.task.action_code = dropdown.value;
+            
+            console.log(options.task.action_code);
+        });
             html += '<div class="pointer"></div>';
             this.parent.innerHTML = html;
             this.pointer = this.parent.querySelector('.pointer');
-        } else {
-            // set data
-            this.title.innerHTML = options.title;
-            this.subtitle.innerHTML = options.subtitle;
-            this.parent.style.width = this.parent.clientWidth + 'px';
-        }
+            let dropdown = document.getElementById("actionCode");
+            
+        
 
         // set position
         let position_meta;

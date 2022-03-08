@@ -12,6 +12,12 @@
 			width: 80%;
 			margin: 0 auto;
 		}
+		.bar-color .bar {
+  			fill: #e5bc48 !important;
+		}
+		.bar-completed .bar {
+  			fill: #518c35 !important;
+		}
 		/* custom class */
 		.gantt .bar-milestone .bar {
 			fill: tomato;
@@ -27,79 +33,70 @@
 	</div>
 	<script>
 		var tasks = [
-			{
-				start: '2018-10-01',
-				end: '2018-10-08',
-				name: 'Redesign website',
-				id: "Task 0",
-				progress: 20
-			},
-			{
-				start: '2018-10-03',
-				end: '2018-10-06',
-				name: 'Write new content',
-				id: "Task 1",
-				progress: 5,
-				dependencies: 'Task 0'
-			},
-			{
-				start: '2018-10-04',
-				end: '2018-10-08',
-				name: 'Apply new styles',
-				id: "Task 2",
-				progress: 10,
-				dependencies: 'Task 1'
-			},
-			{
-				start: '2018-10-08',
-				end: '2018-10-09',
-				name: 'Review',
-				id: "Task 3",
-				progress: 5,
-				dependencies: 'Task 2'
-			},
-			{
-				start: '2018-10-08',
-				end: '2018-10-10',
-				name: 'Deploy',
-				id: "Task 4",
-				progress: 0,
-				dependencies: 'Task 2'
-			},
-			{
-				start: '2018-10-11',
-				end: '2018-10-11',
-				name: 'Go Live!',
-				id: "Task 5",
-				progress: 0,
-				dependencies: 'Task 4',
-				custom_class: 'bar-milestone'
-			},
-			{
-				start: '2014-01-05',
-				end: '2019-10-12',
-				name: 'Long term task',
-				id: "Task 6",
-				progress: 0
-			}
+		{
+          id: "Submit",
+          name: "Submit to DoR",
+          start: "2019-6-23",
+          end: "2019-6-28",
+          progress: 0,
+          dependencies: "",
+          custom_class: "bar-completed",
+		  action_code: "",
+		},
+        {
+          id: "DoR Approval",
+          name: "DoR Approval",
+          start: "2019-6-29",
+          end: "2019-7-3",
+          progress: 0,
+          dependencies: "Submit",
+          custom_class: "bar-completed",
+		  action_code: "",
+		},
+        {
+          id: "Submit to Gov",
+          name: "Submit to Gov",
+          start: "2019-7-4",
+          end: "2019-7-17",
+          progress: 0,
+          dependencies: "DoR Approval",
+          custom_class: "bar-completed",
+		  action_code: "",
+		},
+        {
+          id: "Material Needed By",
+          name: "Material Needed By",
+          start: "2019-7-18",
+          end: "2019-7-23",
+          progress: 0,
+          dependencies: "Submit to Gov",
+          custom_class: "bar-completed",
+		  action_code: "",
+		},
+			
 		]
 		var gantt_chart = new Gantt(".gantt-target", tasks, {
 			on_click: function (task) {
-				console.log(task);
-			},
+         
+          	if (task.custom_class === "bar-color") {
+            	task.custom_class = "bar-completed";
+          	} else {
+            	task.custom_class = "bar-color";
+          	}
+        	},
 			on_date_change: function(task, start, end) {
-				console.log(task, start, end);
+				//console.log(task, start, end);
 			},
 			on_progress_change: function(task, progress) {
-				console.log(task, progress);
+				//console.log(task, progress);
 			},
 			on_view_change: function(mode) {
-				console.log(mode);
+				//console.log(mode);
 			},
-			view_mode: 'Month',
+			view_mode: 'Day',
 			language: 'en'
 		});
-		console.log(gantt_chart);
+		//console.log(gantt_chart);
 	</script>
 </body>
 </html>
