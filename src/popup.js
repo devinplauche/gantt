@@ -37,8 +37,8 @@ export default class Popup {
         "<option value=\"F\">F</option>\n" + 
         "<option value=\"G\">G</option>\n" + 
         "<option value=\"K\">K</option>\n" +
-        "<option value=\"G\">R</option>\n" + 
-        "<option value=\"K\">X</option>\n" +   
+        "<option value=\"R\">R</option>\n" + 
+        "<option value=\"X\">X</option>\n" +   
         "</select><style>#actionCode { background: #ccc }</style>";
         html += '<div class="pointer"></div>';
             this.parent.innerHTML = html;
