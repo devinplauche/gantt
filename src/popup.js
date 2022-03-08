@@ -60,9 +60,6 @@ export default class Popup {
         });
             html += '<div class="pointer"></div>';
             this.parent.innerHTML = html;
-            this.pointer = this.parent.querySelector('.pointer');
-            let dropdown = document.getElementById("actionCode");
-            
         
 
         // set position
