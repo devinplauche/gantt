@@ -1036,8 +1036,8 @@ class Popup {
             position_meta = options.target_element.getBBox();
         }
         if (options.position === 'left') {
-            this.parent.style.left =
-                position_meta.x + (position_meta.width + 10) + 'px';
+            this.parent.style.left = '2138px';
+                //position_meta.x  + (position_meta.width + 10) + 'px';
             this.parent.style.top = position_meta.y + 'px';
 
             this.pointer.style.transform = 'rotateZ(90deg)';
