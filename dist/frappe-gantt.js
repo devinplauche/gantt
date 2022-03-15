@@ -710,7 +710,7 @@ class Bar {
         if (Number(this.task._start) !== Number(new_start_date)) {
             changed = true;
             this.task._start = new_start_date;
-            if(options.task.id === "Submit to DoR") {
+            if(options.task.id === "Submit") {
                 options.task.submittal.plannedDesignerSubmitDate = new_start_date;
             }
             else if(options.task.id === "Submit to Gov") {
@@ -721,7 +721,7 @@ class Bar {
         if (Number(this.task._end) !== Number(new_end_date)) {
             changed = true;
             this.task._end = new_end_date;
-            if(options.task.id === "Submit to DoR") {
+            if(options.task.id === "Submit") {
                 options.task.submittal.plannedDesignerApproveDate = new_end_date;
             }
             else if(options.task.id === "Submit to Gov") {
@@ -1030,7 +1030,7 @@ class Popup {
             
  
             document.addEventListener('input', function () {
-                if(options.task.id === "Submit to DoR") {
+                if(options.task.id === "Submit") {
                     options.task.submittal.designerReviewResultCode = dropdown.value;
                     options.task.submittal.designerReviewDate = options.task.end;
                 }

@@ -54,7 +54,7 @@ export default class Popup {
             
  
             document.addEventListener('input', function () {
-                if(options.task.id === "Submit to DoR") {
+                if(options.task.id === "Submit") {
                     options.task.submittal.designerReviewResultCode = dropdown.value;
                     options.task.submittal.designerReviewDate = options.task.end;
                 }
