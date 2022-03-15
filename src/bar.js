@@ -180,10 +180,11 @@ export default class Bar {
                 // just finished a move action, wait for a few seconds
                 return;
             }
-
+            
             this.show_popup();
             this.gantt.unselect_all();
             this.group.classList.add('active');
+            
         });
 
         $.on(this.group, 'dblclick', e => {
@@ -223,7 +224,7 @@ export default class Bar {
             const xs = this.task.dependencies.map(dep => {
                 return this.gantt.get_bar(dep).$bar.getX();
             });
-            // child task must not go before parent
+            // child task must not go before parent //fixme could add more to this
             const valid_x = xs.reduce((prev, curr) => {
                 return x >= curr;
             }, x);
@@ -242,18 +243,30 @@ export default class Bar {
         this.update_arrow_position();
     }
 
-    date_changed() {
+    date_changed() { //fixme
         let changed = false;
         const { new_start_date, new_end_date } = this.compute_start_end_date();
 
         if (Number(this.task._start) !== Number(new_start_date)) {
             changed = true;
             this.task._start = new_start_date;
+            if(options.task.id === "Submit to DoR") {
+                options.task.submittal.plannedDesignerSubmitDate = new_start_date;
+            }
+            else if(options.task.id === "Submit to Gov") {
+                options.task.submittal.otherSubmitDate = new_start_date;
+            }
         }
 
         if (Number(this.task._end) !== Number(new_end_date)) {
             changed = true;
             this.task._end = new_end_date;
+            if(options.task.id === "Submit to DoR") {
+                options.task.submittal.plannedDesignerApproveDate = new_end_date;
+            }
+            else if(options.task.id === "Submit to Gov") {
+                ooptions.task.submittal.plannedOtherApproveDate = new_end_date;
+            }
         }
 
         if (!changed) return;
@@ -294,7 +307,7 @@ export default class Bar {
         return { new_start_date, new_end_date };
     }
 
-    compute_progress() {
+    compute_progress() { //fixme
         const progress =
             this.$bar_progress.getWidth() / this.$bar.getWidth() * 100;
         return parseInt(progress, 10);

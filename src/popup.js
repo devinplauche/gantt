@@ -19,7 +19,7 @@ export default class Popup {
         this.pointer = this.parent.querySelector('.pointer');
     }
 
-    show(options) {
+    show(options) { //fixme
         if (!options.target_element) {
             throw new Error('target_element is required to show popup');
         }
@@ -41,24 +41,36 @@ export default class Popup {
         "<option value=\"X\">X</option>\n" +   
         "</select>";
         html += '<div class="pointer"></div>';
+            console.log("in popup function");
             this.parent.innerHTML = html;
             this.pointer = this.parent.querySelector('.pointer');
             let dropdown = document.getElementById("actionCode");
             for ( var i = 0; i < dropdown.options.length; i++ ) {
 
-                if ( dropdown.options[i].text == options.task.action_code ) {
-        
-                    dropdown.options[i].selected = true;
-        
+                if ( dropdown.options[i].text == options.task.submittal.designerReviewResultCode) {
+                    dropdown.options[i].selected = true
                 }
-        
             }
             
  
             document.addEventListener('input', function () {
-                options.task.action_code = dropdown.value;
+                if(options.task.id === "Submit to DoR") {
+                    options.task.submittal.designerReviewResultCode = dropdown.value;
+                    options.task.submittal.designerReviewDate = options.task.end;
+                }
+                else if(options.task.id === "Submit to Gov") {
+                    options.task.submittal.otherReviewResultCode = dropdown.value;
+                    options.task.submittal.otherReviewDate = options.task.end;
+                }
                 
-                console.log(options.task.action_code);
+                if (dropdown.value === "A" || dropdown.value === "B" || dropdown.value === "D" || dropdown.value === "F"
+                || dropdown.value === "K" || dropdown.value === "R") {
+                    options.task.custom_class = "bar-completed";
+                }
+                else {
+                    options.task.custom_class = "bar-late"
+                }
+                console.log(options.task.submittal.designerReviewResultCode);
             
             });
         

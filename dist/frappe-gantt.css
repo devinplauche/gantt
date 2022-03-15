@@ -38,7 +38,7 @@
   user-select: none; }
 
 .gantt .bar-progress {
-  fill: #a3a3ff; }
+  fill: #518c35; }
 
 .gantt .bar-invalid {
   fill: transparent;
@@ -71,14 +71,14 @@
   .gantt .bar-wrapper:hover .bar {
     fill: #a9b5c1; }
   .gantt .bar-wrapper:hover .bar-progress {
-    fill: #8a8aff; }
+    fill: #518c35; }
   .gantt .bar-wrapper:hover .handle {
     visibility: visible;
     opacity: 1; }
   .gantt .bar-wrapper.active .bar {
     fill: #a9b5c1; }
   .gantt .bar-wrapper.active .bar-progress {
-    fill: #8a8aff; }
+    fill: #518c35; }
 
 .gantt .lower-text, .gantt .upper-text {
   font-size: 12px;

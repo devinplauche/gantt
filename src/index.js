@@ -885,10 +885,13 @@ export default class Gantt {
             );
         }
         this.popup.show(options);
+        let dropdown = document.getElementById("actionCode");
+    
     }
 
     hide_popup() {
         this.popup && this.popup.hide();
+        this.render();
     }
 
     trigger_event(event, args) {

@@ -640,10 +640,11 @@ class Bar {
                 // just finished a move action, wait for a few seconds
                 return;
             }
-
+            
             this.show_popup();
             this.gantt.unselect_all();
             this.group.classList.add('active');
+            
         });
 
         $.on(this.group, 'dblclick', e => {
@@ -683,7 +684,7 @@ class Bar {
             const xs = this.task.dependencies.map(dep => {
                 return this.gantt.get_bar(dep).$bar.getX();
             });
-            // child task must not go before parent
+            // child task must not go before parent //fixme could add more to this
             const valid_x = xs.reduce((prev, curr) => {
                 return x >= curr;
             }, x);
@@ -702,18 +703,30 @@ class Bar {
         this.update_arrow_position();
     }
 
-    date_changed() {
+    date_changed() { //fixme
         let changed = false;
         const { new_start_date, new_end_date } = this.compute_start_end_date();
 
         if (Number(this.task._start) !== Number(new_start_date)) {
             changed = true;
             this.task._start = new_start_date;
+            if(options.task.id === "Submit to DoR") {
+                options.task.submittal.plannedDesignerSubmitDate = new_start_date;
+            }
+            else if(options.task.id === "Submit to Gov") {
+                options.task.submittal.otherSubmitDate = new_start_date;
+            }
         }
 
         if (Number(this.task._end) !== Number(new_end_date)) {
             changed = true;
             this.task._end = new_end_date;
+            if(options.task.id === "Submit to DoR") {
+                options.task.submittal.plannedDesignerApproveDate = new_end_date;
+            }
+            else if(options.task.id === "Submit to Gov") {
+                ooptions.task.submittal.plannedOtherApproveDate = new_end_date;
+            }
         }
 
         if (!changed) return;
@@ -754,7 +767,7 @@ class Bar {
         return { new_start_date, new_end_date };
     }
 
-    compute_progress() {
+    compute_progress() { //fixme
         const progress =
             this.$bar_progress.getWidth() / this.$bar.getWidth() * 100;
         return parseInt(progress, 10);
@@ -982,7 +995,7 @@ class Popup {
         this.pointer = this.parent.querySelector('.pointer');
     }
 
-    show(options) {
+    show(options) { //fixme
         if (!options.target_element) {
             throw new Error('target_element is required to show popup');
         }
@@ -1003,30 +1016,40 @@ class Popup {
         "<option value=\"R\">R</option>\n" + 
         "<option value=\"X\">X</option>\n" +   
         "</select>";
-        
-            html += '<div class="pointer"></div>';
+        html += '<div class="pointer"></div>';
+            console.log("in popup function");
             this.parent.innerHTML = html;
             this.pointer = this.parent.querySelector('.pointer');
             let dropdown = document.getElementById("actionCode");
             for ( var i = 0; i < dropdown.options.length; i++ ) {
 
-                if ( dropdown.options[i].text == options.task.action_code ) {
-        
+                if ( dropdown.options[i].text == options.task.submittal.designerReviewResultCode) {
                     dropdown.options[i].selected = true;
-        
                 }
-        
             }
             
  
             document.addEventListener('input', function () {
-                options.task.action_code = dropdown.value;
+                if(options.task.id === "Submit to DoR") {
+                    options.task.submittal.designerReviewResultCode = dropdown.value;
+                    options.task.submittal.designerReviewDate = options.task.end;
+                }
+                else if(options.task.id === "Submit to Gov") {
+                    options.task.submittal.otherReviewResultCode = dropdown.value;
+                    options.task.submittal.otherReviewDate = options.task.end;
+                }
                 
-                console.log(options.task.action_code);
+                if (dropdown.value === "A" || dropdown.value === "B" || dropdown.value === "D" || dropdown.value === "F"
+                || dropdown.value === "K" || dropdown.value === "R") {
+                    options.task.custom_class = "bar-completed";
+                }
+                else {
+                    options.task.custom_class = "bar-late";
+                }
+                console.log(options.task.submittal.designerReviewResultCode);
             
             });
-
-    
+        
 
         // set position
         let position_meta;
@@ -1035,9 +1058,10 @@ class Popup {
         } else if (target_element instanceof SVGElement) {
             position_meta = options.target_element.getBBox();
         }
+
         if (options.position === 'left') {
-            this.parent.style.left = '2138px';
-                //position_meta.x  + (position_meta.width + 10) + 'px';
+            this.parent.style.left =
+                position_meta.x + (position_meta.width + 10) + 'px';
             this.parent.style.top = position_meta.y + 'px';
 
             this.pointer.style.transform = 'rotateZ(90deg)';
@@ -1934,10 +1958,13 @@ class Gantt {
             );
         }
         this.popup.show(options);
+        let dropdown = document.getElementById("actionCode");
+    
     }
 
     hide_popup() {
         this.popup && this.popup.hide();
+        this.render();
     }
 
     trigger_event(event, args) {
