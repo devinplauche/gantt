@@ -182,6 +182,7 @@ export default class Bar {
             }
             
             this.show_popup();
+            
             this.gantt.unselect_all();
             this.group.classList.add('active');
             
@@ -214,6 +215,29 @@ export default class Bar {
             title: this.task.name,
             subtitle: subtitle,
             task: this.task,
+        });
+        let dropdown = document.getElementById("actionCode");
+        document.addEventListener('input', () => {
+                
+            if(this.task.id === "Submit") {
+                this.task.submittal.designerReviewResultCode = dropdown.value;
+                this.task.submittal.designerReviewDate = this.task.end;
+            }
+            else if(this.task.id === "Submit to Gov") {
+                this.task.submittal.otherReviewResultCode = dropdown.value;
+                this.task.submittal.otherReviewDate = this.task.end;
+            }
+            
+            if (dropdown.value === "A" || dropdown.value === "B" || dropdown.value === "D" || dropdown.value === "F"
+            || dropdown.value === "K" || dropdown.value === "R") {
+                this.task.custom_class = "bar-completed";
+            }
+            else {
+                this.task.custom_class = "bar-late"
+            }
+            this.gantt.render();
+            console.log(this.task.submittal.designerReviewResultCode);
+            
         });
     }
 

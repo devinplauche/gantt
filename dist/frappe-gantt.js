@@ -642,6 +642,7 @@ class Bar {
             }
             
             this.show_popup();
+            
             this.gantt.unselect_all();
             this.group.classList.add('active');
             
@@ -674,6 +675,29 @@ class Bar {
             title: this.task.name,
             subtitle: subtitle,
             task: this.task,
+        });
+        let dropdown = document.getElementById("actionCode");
+        document.addEventListener('input', () => {
+                
+            if(this.task.id === "Submit") {
+                this.task.submittal.designerReviewResultCode = dropdown.value;
+                this.task.submittal.designerReviewDate = this.task.end;
+            }
+            else if(this.task.id === "Submit to Gov") {
+                this.task.submittal.otherReviewResultCode = dropdown.value;
+                this.task.submittal.otherReviewDate = this.task.end;
+            }
+            
+            if (dropdown.value === "A" || dropdown.value === "B" || dropdown.value === "D" || dropdown.value === "F"
+            || dropdown.value === "K" || dropdown.value === "R") {
+                this.task.custom_class = "bar-completed";
+            }
+            else {
+                this.task.custom_class = "bar-late";
+            }
+            this.gantt.render();
+            console.log(this.task.submittal.designerReviewResultCode);
+            
         });
     }
 
@@ -978,46 +1002,51 @@ class Popup {
     constructor(parent, custom_html) {
         this.parent = parent;
         this.custom_html = custom_html;
+        this.material_needed_width = -1;
         this.make();
     }
 
     make() {
         this.parent.innerHTML = `
-            <div class="title"></div>
             <div class="subtitle"></div>
             <div class="pointer"></div>
         `;
 
         this.hide();
 
-        this.title = this.parent.querySelector('.title');
         this.subtitle = this.parent.querySelector('.subtitle');
         this.pointer = this.parent.querySelector('.pointer');
     }
 
-    show(options) { //fixme
+    show(options) { 
         if (!options.target_element) {
             throw new Error('target_element is required to show popup');
         }
         if (!options.position) {
             options.position = 'left';
         }
+        if(this.material_needed_width === -1) {
+            this.make();
+            this.subtitle.innerHTML = options.subtitle;
+            this.material_needed_width = this.parent.clientWidth + 'px';
+        }
         const target_element = options.target_element;
-        
-        let html = "<select name=\"actionCode\" id=\"actionCode\">" + 
-        "<option value=\"A\">A</option>\n" + 
-        "<option value=\"B\">B</option>\n" + 
-        "<option value=\"C\">C</option>\n" + 
-        "<option value=\"D\">D</option>\n" +
-        "<option value=\"E\">E</option>\n" + 
-        "<option value=\"F\">F</option>\n" + 
-        "<option value=\"G\">G</option>\n" + 
-        "<option value=\"K\">K</option>\n" +
-        "<option value=\"R\">R</option>\n" + 
-        "<option value=\"X\">X</option>\n" +   
-        "</select>";
-        html += '<div class="pointer"></div>';
-            console.log("in popup function");
+        console.log("in popup function");
+
+        if(options.task.id !== "Material Needed By") {
+            let html = "<select name=\"actionCode\" id=\"actionCode\">" + 
+            "<option value=\"A\">A</option>\n" + 
+            "<option value=\"B\">B</option>\n" + 
+            "<option value=\"C\">C</option>\n" + 
+            "<option value=\"D\">D</option>\n" +
+            "<option value=\"E\">E</option>\n" + 
+            "<option value=\"F\">F</option>\n" + 
+            "<option value=\"G\">G</option>\n" + 
+            "<option value=\"K\">K</option>\n" +
+            "<option value=\"R\">R</option>\n" + 
+            "<option value=\"X\">X</option>\n" +   
+            "</select>";
+            html += '<div class="pointer"></div>';
             this.parent.innerHTML = html;
             this.pointer = this.parent.querySelector('.pointer');
             let dropdown = document.getElementById("actionCode");
@@ -1030,6 +1059,7 @@ class Popup {
             
  
             document.addEventListener('input', function () {
+                
                 if(options.task.id === "Submit") {
                     options.task.submittal.designerReviewResultCode = dropdown.value;
                     options.task.submittal.designerReviewDate = options.task.end;
@@ -1047,8 +1077,18 @@ class Popup {
                     options.task.custom_class = "bar-late";
                 }
                 console.log(options.task.submittal.designerReviewResultCode);
-            
+                
             });
+
+            this.parent.style.width = "0px";
+
+        }
+        else {
+            this.make();
+            this.subtitle.innerHTML = options.subtitle;
+            console.log(options.subtitle);
+            this.parent.style.width = this.material_needed_width;
+        }
         
 
         // set position
@@ -1058,7 +1098,7 @@ class Popup {
         } else if (target_element instanceof SVGElement) {
             position_meta = options.target_element.getBBox();
         }
-
+        
         if (options.position === 'left') {
             this.parent.style.left =
                 position_meta.x + (position_meta.width + 10) + 'px';
@@ -1954,7 +1994,7 @@ class Gantt {
         if (!this.popup) {
             this.popup = new Popup(
                 this.popup_wrapper,
-                this.options.custom_popup_html
+                this.options.custom_popup_html,
             );
         }
         this.popup.show(options);
