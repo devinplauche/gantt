@@ -51,34 +51,13 @@ export default class Popup {
             this.pointer = this.parent.querySelector('.pointer');
             let dropdown = document.getElementById("actionCode");
             for ( var i = 0; i < dropdown.options.length; i++ ) {
-
+                
                 if ( dropdown.options[i].text == options.task.submittal.designerReviewResultCode) {
                     dropdown.options[i].selected = true
                 }
             }
             
  
-            document.addEventListener('input', function () {
-                
-                if(options.task.id === "Submit") {
-                    options.task.submittal.designerReviewResultCode = dropdown.value;
-                    options.task.submittal.designerReviewDate = options.task.end;
-                }
-                else if(options.task.id === "Submit to Gov") {
-                    options.task.submittal.otherReviewResultCode = dropdown.value;
-                    options.task.submittal.otherReviewDate = options.task.end;
-                }
-                
-                if (dropdown.value === "A" || dropdown.value === "B" || dropdown.value === "D" || dropdown.value === "F"
-                || dropdown.value === "K" || dropdown.value === "R") {
-                    options.task.custom_class = "bar-completed";
-                }
-                else {
-                    options.task.custom_class = "bar-late"
-                }
-                console.log(options.task.submittal.designerReviewResultCode);
-                
-            });
 
             this.parent.style.width = "0px";
 
