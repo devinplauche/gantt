@@ -274,22 +274,22 @@ export default class Bar {
         if (Number(this.task._start) !== Number(new_start_date)) {
             changed = true;
             this.task._start = new_start_date;
-            if(options.task.id === "Submit") {
-                options.task.submittal.plannedDesignerSubmitDate = new_start_date;
+            if(task.id === "Submit") {
+                task.submittal.plannedDesignerSubmitDate = new_start_date;
             }
-            else if(options.task.id === "Submit to Gov") {
-                options.task.submittal.otherSubmitDate = new_start_date;
+            else if(task.id === "Submit to Gov") {
+                task.submittal.otherSubmitDate = new_start_date;
             }
         }
 
         if (Number(this.task._end) !== Number(new_end_date)) {
             changed = true;
             this.task._end = new_end_date;
-            if(options.task.id === "Submit") {
-                options.task.submittal.plannedDesignerApproveDate = new_end_date;
+            if(task.id === "Submit") {
+                task.submittal.plannedDesignerApproveDate = new_end_date;
             }
-            else if(options.task.id === "Submit to Gov") {
-                ooptions.task.submittal.plannedOtherApproveDate = new_end_date;
+            else if(task.id === "Submit to Gov") {
+                task.submittal.plannedOtherApproveDate = new_end_date;
             }
         }
 
