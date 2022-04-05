@@ -270,26 +270,30 @@ export default class Bar {
     date_changed() { //fixme
         let changed = false;
         const { new_start_date, new_end_date } = this.compute_start_end_date();
-
+        
         if (Number(this.task._start) !== Number(new_start_date)) {
             changed = true;
             this.task._start = new_start_date;
-            if(task.id === "Submit") {
-                task.submittal.plannedDesignerSubmitDate = new_start_date;
+            if(this.task.id === "Submit") {
+                this.task.submittal.plannedDesignerSubmitDate = new_start_date;
             }
-            else if(task.id === "Submit to Gov") {
-                task.submittal.otherSubmitDate = new_start_date;
+            else if(this.task.id === "Submit to Gov") {
+                this.task.submittal.otherSubmitDate = new_start_date;
+            }
+            else if(this.task.id === "Material Needed By") {
             }
         }
 
         if (Number(this.task._end) !== Number(new_end_date)) {
             changed = true;
             this.task._end = new_end_date;
-            if(task.id === "Submit") {
-                task.submittal.plannedDesignerApproveDate = new_end_date;
+            if(this.task.id === "Submit") {
+                this.task.submittal.plannedDesignerApproveDate = new_end_date;
             }
-            else if(task.id === "Submit to Gov") {
-                task.submittal.plannedOtherApproveDate = new_end_date;
+            else if(this.task.id === "Submit to Gov") {
+                this.task.submittal.plannedOtherApproveDate = new_end_date;
+            } 
+            else if(this.task.id === "Material Needed By") {
             }
         }
 
@@ -300,6 +304,7 @@ export default class Bar {
             new_start_date,
             date_utils.add(new_end_date, -1, 'second')
         ]);
+        this.gantt.render(); //checkme
     }
 
     progress_changed() {
