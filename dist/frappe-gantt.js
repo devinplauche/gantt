@@ -1056,9 +1056,15 @@ class Popup {
             this.pointer = this.parent.querySelector('.pointer');
             let dropdown = document.getElementById("actionCode");
             for ( var i = 0; i < dropdown.options.length; i++ ) {
-                
-                if ( dropdown.options[i].text == options.task.submittal.designerReviewResultCode) {
-                    dropdown.options[i].selected = true;
+                if(options.task.id == "Submit") {
+                    if ( dropdown.options[i].text == options.task.submittal.designerReviewResultCode) {
+                        dropdown.options[i].selected = true;
+                    }
+                }
+                else {
+                    if ( dropdown.options[i].text == options.task.submittal.otherReviewResultCode) {
+                        dropdown.options[i].selected = true;
+                    }
                 }
             }
             
