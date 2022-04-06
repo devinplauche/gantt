@@ -228,8 +228,8 @@ export default class Bar {
                 this.task.submittal.otherReviewDate = this.task.end;
             }
             
-            if (dropdown.value === "A" || dropdown.value === "B" || dropdown.value === "D" || dropdown.value === "F"
-            || dropdown.value === "K" || dropdown.value === "R") {
+            if ((dropdown.value === "A" || dropdown.value === "B" || dropdown.value === "D" || dropdown.value === "F"
+            || dropdown.value === "K" || dropdown.value === "R") && this.task.progress == 0) {
                 this.task.custom_class = "bar-completed";
             }
             else {
@@ -304,7 +304,7 @@ export default class Bar {
             new_start_date,
             date_utils.add(new_end_date, -1, 'second')
         ]);
-        this.gantt.render(); //checkme
+      
     }
 
     progress_changed() {
