@@ -290,7 +290,7 @@ export default class Bar {
                 this.task.submittal.designerReviewDate = new_end_date;
             }
             else if(this.task.id === "Submit to Gov") {
-                this.task.submittal.otherReviewDate = new_end_date;
+                this.task.submittal.otherReviewedDate = new_end_date;
             } 
             else if(this.task.id === "Material Needed By") {
                 this.task.submittal.materialByDate = new_end_date;
