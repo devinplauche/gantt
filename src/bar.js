@@ -275,25 +275,25 @@ export default class Bar {
             changed = true;
             this.task._start = new_start_date;
             if(this.task.id === "Submit") {
-                this.task.submittal.plannedDesignerSubmitDate = new_start_date;
+                this.task.submittal.designerSubmitDate = new_start_date;
             }
             else if(this.task.id === "Submit to Gov") {
                 this.task.submittal.otherSubmitDate = new_start_date;
             }
-            else if(this.task.id === "Material Needed By") {
-            }
+            // note that the material start date is always calculated, and should not be edited directly
         }
 
         if (Number(this.task._end) !== Number(new_end_date)) {
             changed = true;
             this.task._end = new_end_date;
             if(this.task.id === "Submit") {
-                this.task.submittal.plannedDesignerApproveDate = new_end_date;
+                this.task.submittal.designerReviewDate = new_end_date;
             }
             else if(this.task.id === "Submit to Gov") {
-                this.task.submittal.plannedOtherApproveDate = new_end_date;
+                this.task.submittal.otherReviewDate = new_end_date;
             } 
             else if(this.task.id === "Material Needed By") {
+                this.task.submittal.materialByDate = new_end_date;
             }
         }
 
