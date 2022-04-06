@@ -688,8 +688,8 @@ class Bar {
                 this.task.submittal.otherReviewDate = this.task.end;
             }
             
-            if ((dropdown.value === "A" || dropdown.value === "B" || dropdown.value === "D" || dropdown.value === "F"
-            || dropdown.value === "K" || dropdown.value === "R") && this.task.progress == 0) {
+            if (dropdown.value === "A" || dropdown.value === "B" || dropdown.value === "D" || dropdown.value === "F"
+            || dropdown.value === "K" || dropdown.value === "R") {
                 this.task.custom_class = "bar-completed";
             }
             else {
